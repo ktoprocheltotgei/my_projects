@@ -2029,3 +2029,425 @@ b.link('alfavit')
 print(b.lst_obj)
 print(a.head_obj)
 '''
+'''    📝📝📝                                                    Разработайте класс Book: Автор, Название, Издательство, Год, Количество 
+страниц. Создайте массив объектов. Выведите: 
+а) список книг заданного автора; 
+б) список книг, выпущенных заданным издательством;
+в) список книг, выпущенных после заданного года.
+💻💻💻
+class book:
+    av = ['пушкин','толстой','даль']
+    kn = [[('книга1','издательство4',1537,200),('книга2','издательство4',1999,300),('книга3','издательство1',1850,122)],[('война и мир','издательство5',1765,10000),('книга4','издательство1',1900,98)],[('книга5','издательство1',2027,443),('книга6','издательство4',988,889)]]
+    n = dict(zip(av,kn))
+    def avtor(self,a):
+        a1 = self.av.index(a)
+        for i in self.kn[a1]:
+            print(i[0])
+    def nazvanie(self,a):
+        c = 0
+        for i in self.kn:
+            for g in i:
+                if g[0]==a:
+                    print(self.av[c])
+                    break
+            c +=1
+    def isdatel(self,a):
+         for i in self.kn:
+            for g in i:
+                if g[1]==a:
+                    print(g[0])
+    def posle(self,a):
+        for i in self.kn:
+            for g in i:
+                if g[2]>=a:
+                    print(g[0])
+a = book()
+print('книги Пушкина:')
+a.avtor('пушкин')
+print('\nавтор книги 6')
+a.nazvanie('книга6')
+print('\nкниги, выпущенные издательством 4:')
+a.isdatel('издательство4')
+print('\nкниги, выпущенные после 1800')
+a.posle(1800)
+'''
+'''📝📝📝                                                               Создайте базовый класс «Транспортное средство» и производные классы 
+«Автомобиль», «Велосипед», «Повозка». Подсчитайте время и стоимость перевозки 
+пассажиров и грузов каждым транспортным средством.
+💻💻💻
+class transport:
+    v = 100
+    p = 100
+    def vrema(self):
+        return f'vremya perevosky: {self.v}'
+    def plata(self):
+        return f'stoimostb perevozky: {self.p}'
+class povozka(transport):
+    v = 1000
+class velosiped(transport):
+    v = 500
+    p = 0
+class avto(transport):
+    p = 2500
+print(povozka().vrema())
+print(povozka().plata())
+print(avto().vrema())
+print(avto().plata())
+print(velosiped().vrema())
+print(velosiped().plata())
+'''
+''' 📝📝📝                                                                    запускает калькулятор и считает 5х4
+💻💻💻
+from pywinauto import Application
+import time
+app = Application(backend='uia').start('Calc')
+time.sleep(1)
+app.connect(title='Калькулятор')
+dlg = app.window(title='Калькулятор')
+dlg.child_window(title='Четыре', control_type='Button').click()
+dlg.child_window(title='Умножить на', control_type='Button').click()
+dlg.child_window(title='Пять', control_type='Button').click()
+dlg.child_window(title='Равно', control_type='Button').click()
+'''
+'''                                                                                 открывает ватсап и нажимает на контакт Планшет
+
+import time
+from pywinauto import mouse,Application
+mouse.click(button='left',coords=(322, 1057))
+time.sleep(0.5)
+app = Application(backend='uia').connect(title='WhatsApp')
+e = app.window(title='WhatsApp')
+e.child_window(title='Планшет', control_type='Text').click_input()
+'''
+'''📝📝📝                                                            телеграм бот с некоторыми функциями
+💻💻💻
+import telebot as tg
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
+bot = tg.TeleBot("8441626044:AAEKFDSUOPzHsV8XU8YayiFvQhHKvHrfH1M")
+vop = ['1. Сколько существует видов алгоритмов в пайтон?',"2. Как создать список?","3. Какая самая маленькая единица измерения памяти?",
+       "4. что выведет данная программа?\na = 15\nif a!=15:\n   a **=2\nelse:\n    a /=3\nprint(a)","5. Возможно ли одновременно запустить несколько программ?",
+       "6. Что возвращает функция len()?","7. Какой из этих типов данных логический?","8. Что значит // ?",'9. Кто придумал основные принципы кодированя информации?',
+       '10. Выберете неправильное название переменной']
+ot = dict()
+pr = {1: 3, 2: 'a = list()', 3: 'бит', 4: '5.0', 5: 'да', 6: 'длину строки', 7: '1', 8: 'деление нацело', 9: 'Кравцов Иван', 10: '1bes'}
+@bot.message_handler(commands=["start"])
+def repeat_all_messages(message):
+    keyboard = tg.types.InlineKeyboardMarkup()
+    button1 = tg.types.InlineKeyboardButton(text="начать", callback_data="старт")
+    keyboard.add(button1)
+    global msg
+    msg = bot.send_message(message.chat.id, 'тест на знание пайтон\nколичество вопросов: 10',reply_markup=keyboard)
+@bot.message_handler(commands=['search'])
+def search(ms):
+    mark = tg.types.InlineKeyboardMarkup()
+    b = tg.types.InlineKeyboardButton(text='погода', callback_data='pogoda')
+    b1 = tg.types.InlineKeyboardButton(text='время', callback_data='vremya')
+    b3 = tg.types.InlineKeyboardButton(text='звонок через', callback_data='zvon')
+    b2 = tg.types.InlineKeyboardButton(text='фото', callback_data='negr')
+    mark.add(b, b1)
+    mark.add(b3, b2)
+    global msg
+    msg = bot.send_message(ms.chat.id, 'нажми на кнопку', reply_markup=mark)
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    if call.data == 'pogoda':
+        response = requests.get(
+            'https://yandex.ru/pogoda/ru/moscow?lat=55.755863&lon=37.617699&utm_source=serp&utm_medium=touch&utm_content=helper_today&utm_campaign=helper&utm_term=title&ysclid=mgktpsq01836237733')
+        page = BeautifulSoup(response.text, 'html5lib')
+        a = page.find_all('p', class_="A11Y_visuallyHidden__y0sw0 visuallyHidden")
+        for i in a:
+            if 'погода сейчас' in i.text:
+                bot.send_message(call.message.chat.id,i.text.lstrip('Тверской район, '))
+                break
+    if call.data == 'vremya':
+        a = datetime.now()
+        bot.send_message(call.message.chat.id, f'{a.hour}:{a.minute}')
+
+    if call.data == 'zvon':
+        f = [30600, 33300, 34500, 37200, 38400, 41100, 42300, 45000, 45600, 48300, 49500, 52200, 53400, 56100]
+        a = datetime.now()
+        a1 = a.hour * 3600 + a.minute * 60 + a.second
+        for i in f:
+            if i > a1:
+                b1 = i
+                break
+            else:
+                b1 = f[0]
+        e = b1 - a1
+        if e < 0:
+            e = (86400 - a1) + b1
+        if e // 3600 >= 1:
+            bot.send_message(call.message.chat.id, f'{e // 3600} часов {e // 60 % 60} минут {e % 60} секунд')
+        else:
+            bot.send_message(call.message.chat.id, f'{e // 60 % 60} минут {e % 60} секунд')
+    if call.data == 'negr':
+        bot.send_photo(call.message.chat.id,
+                       'https://avatars.mds.yandex.net/i?id=54ee191148b1211fc052de3ae21c5548_l-5869942-images-thumbs&n=13')
+    if call.data == "старт":
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="1", callback_data="1:1")
+        b2 = tg.types.InlineKeyboardButton(text="2", callback_data="1:2")
+        b3 = tg.types.InlineKeyboardButton(text="3", callback_data="1:3")
+        keyboard.add(b1,b2,b3)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id, text='1. Сколько существует видов алгоритмов в пайтон?', reply_markup=keyboard)
+    elif call.data in '1:1 1:2 1:3':
+        if call.data == "1:1":
+            ot.update({1: 1})
+        elif call.data == "1:2":
+            ot.update({1:2})
+        elif call.data == '1:3':
+            ot.update({1:3})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="а = list", callback_data="2:1")
+        b2 = tg.types.InlineKeyboardButton(text="a = list()", callback_data="2:2")
+        b3 = tg.types.InlineKeyboardButton(text="a = str()", callback_data="2:3")
+        keyboard.add(b1, b2, b3)
+        bot.edit_message_text(chat_id=call.message.chat.id,message_id=msg.message_id,text= "2. Как создать список?", reply_markup=keyboard)
+    elif call.data in '2:1 2:2 2:3':
+        if call.data == "2:1":
+            ot.update({2: "а = list"})
+        elif call.data == "2:2":
+            ot.update({2:"a = list()"})
+        elif call.data == '2:3':
+            ot.update({2:"a = str()"})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="бит", callback_data="3:1")
+        b2 = tg.types.InlineKeyboardButton(text="гбайт", callback_data="3:2")
+        b3 = tg.types.InlineKeyboardButton(text="километр", callback_data="3:3")
+        keyboard.add(b1, b2, b3)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id, text="3. Какая самая маленькая единица измерения памяти?", reply_markup=keyboard)
+    elif call.data in '3:1 3:2 3:3':
+        if call.data == "3:1":
+            ot.update({3: "бит"})
+        elif call.data == "3:2":
+            ot.update({3:"гбайт"})
+        elif call.data == '3:3':
+            ot.update({3:"километр"})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="225", callback_data="4:1")
+        b2 = tg.types.InlineKeyboardButton(text="5", callback_data="4:2")
+        b3 = tg.types.InlineKeyboardButton(text="5.0", callback_data="4:3")
+        b4 = tg.types.InlineKeyboardButton(text="0.5", callback_data="4:4")
+        keyboard.add(b1, b2)
+        keyboard.add(b3,b4)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,
+                              text="4. что выведет данная программа?\na = 15\nif a!=15:\n   a **=2\nelse:\n    a /=3\nprint(a)", reply_markup=keyboard)
+    elif call.data in '4:1 4:2 4:3 4:4':
+        if call.data == "4:1":
+            ot.update({4: "225"})
+        elif call.data == "4:2":
+            ot.update({4:'5'})
+        elif call.data == '4:3':
+            ot.update({4:'5.0'})
+        elif call.data == '4:4':
+            ot.update({4:'0.5'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="нет", callback_data="5:1")
+        b2 = tg.types.InlineKeyboardButton(text='да', callback_data="5:2")
+        keyboard.add(b1, b2)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text="5. Возможно ли одновременно запустить несколько программ?",reply_markup=keyboard)
+    elif call.data in '5:1 5:2':
+        if call.data == "5:1":
+            ot.update({5: "нет"})
+        elif call.data == "5:2":
+            ot.update({5:'да'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="длину строки", callback_data="6:1")
+        b2 = tg.types.InlineKeyboardButton(text='сумму чисел', callback_data="6:2")
+        b3 = tg.types.InlineKeyboardButton(text='сумму цифр', callback_data="6:2")
+        keyboard.add(b1, b2, b3)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text="6. Что возвращает функция len()?", reply_markup=keyboard)
+    elif call.data in '6:1 6:2 6:3':
+        if call.data == "6:1":
+            ot.update({6: "длину строки"})
+        elif call.data == "6:2":
+            ot.update({6:'сумму чисел'})
+        elif call.data == '6:3':
+            ot.update({6:'сумму цифр числа'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="1", callback_data="7:1")
+        b2 = tg.types.InlineKeyboardButton(text='15.3', callback_data="7:2")
+        b3 = tg.types.InlineKeyboardButton(text='попа', callback_data="7:3")
+        b4 = tg.types.InlineKeyboardButton(text='4', callback_data="7:4")
+        keyboard.add(b1, b2)
+        keyboard.add(b3, b4)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text="7. Какой из этих типов данных логический?", reply_markup=keyboard)
+    elif call.data in '7:1 7:2 7:3 7:4':
+        if call.data == "7:1":
+            ot.update({7: '1'})
+        elif call.data == "7:2":
+            ot.update({7:'15.3'})
+        elif call.data == '7:3':
+            ot.update({7:'попа'})
+        elif call.data == '7:4':
+            ot.update({7:'4'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="умножение", callback_data="8:1")
+        b2 = tg.types.InlineKeyboardButton(text='дробь', callback_data="8:2")
+        b3 = tg.types.InlineKeyboardButton(text='остаток от деления', callback_data="8:3")
+        b4 = tg.types.InlineKeyboardButton(text='деление нацело', callback_data="8:4")
+        keyboard.add(b1, b2)
+        keyboard.add(b3, b4)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text="8. Что значит // ?", reply_markup=keyboard)
+    elif call.data in '8:1 8:2 8:3 8:4':
+        if call.data == "8:1":
+            ot.update({8: "умножение"})
+        elif call.data == "8:2":
+            ot.update({8:'дробь'})
+        elif call.data == '8:3':
+            ot.update({8:'остаток от деления'})
+        elif call.data == '8:4':
+            ot.update({8:'деление нацело'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="Кравцов Иван", callback_data="9:1")
+        b2 = tg.types.InlineKeyboardButton(text='Фон Нейман', callback_data="9:2")
+        b3 = tg.types.InlineKeyboardButton(text='Пушкин', callback_data="9:3")
+        b4 = tg.types.InlineKeyboardButton(text='Цуркерберг', callback_data="9:4")
+        keyboard.add(b1, b2)
+        keyboard.add(b3, b4)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text='9. Кто придумал основные принципы кодированя информации?', reply_markup=keyboard)
+    elif call.data in '9:1 9:2 9:3 9:4':
+        if call.data == "9:1":
+            ot.update({9: "Кравцов Иван"})
+        elif call.data == "9:2":
+            ot.update({9:'Фон Нейман'})
+        elif call.data == '9:3':
+            ot.update({9:'Пушкин'})
+        elif call.data == '9:4':
+            ot.update({9:'Цуркерберг'})
+        keyboard = tg.types.InlineKeyboardMarkup()
+        b1 = tg.types.InlineKeyboardButton(text="1bes", callback_data="10:1")
+        b2 = tg.types.InlineKeyboardButton(text='ad_ili_ray', callback_data="10:2")
+        b3 = tg.types.InlineKeyboardButton(text='bs234jseeiso45924jkl2h32o', callback_data="10:3")
+        b4 = tg.types.InlineKeyboardButton(text='w', callback_data="10:4")
+        keyboard.add(b1, b2)
+        keyboard.add(b3, b4)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text='10. Выберете неправильное название переменной', reply_markup=keyboard)
+    elif call.data in '10:1 10:2 10:3 10:4':
+        if call.data == "10:1":
+            ot.update({10: "1bes"})
+        elif call.data == "10:2":
+            ot.update({10:'ad_ili_ray'})
+        elif call.data == '10:3':
+            ot.update({10:'bs234jseeiso45924jkl2h32o'})
+        elif call.data == '10:4':
+            ot.update({10:'w'})
+        c = 1
+        og = 0
+        for i in ot.values():
+            if i == pr[c]:
+                og += 1
+            c += 1
+        if og!=10:
+            keyboard = tg.types.InlineKeyboardMarkup()
+            b1 = tg.types.InlineKeyboardButton(text="показать ответы", callback_data="конец")
+            keyboard.add(b1)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id,text=f'оценка {og}/10\n\n', reply_markup=keyboard)
+    elif call.data == 'конец':
+        c = 1
+        a = ''
+        for i in ot.values():
+            if i != pr[c]:
+                a += f"""{vop[c-1]}
+твой ответ: {i}
+правильный ответ: {pr[c]}
+
+"""
+            c += 1
+        bot.send_message(call.message.chat.id, a)
+
+
+bot.polling(none_stop=True, interval=0)
+'''
+'''📝📝📝                                                учусть использовать ткинтер
+💻💻💻
+import tkinter as tk
+c = 0
+def ot(l,b):
+    global c
+    c += 1
+    e = tk.Label()
+    if c==1:
+        e.configure(text='эй не надо нажимать')
+    elif c==2:
+        e.configure(text='последнее предупреждение')
+    elif c==3:
+        e.configure(text='кто прочел тот лох')
+    elif c==69:
+        b['state'] = ['disabled']
+        b['text']='о нет ты сломал ее'
+    l.config(text=c)
+    e.pack()
+a = tk.Tk()
+a.title('okno')
+a.geometry('500x500+700+200')
+l = tk.Label(a,text='вопрос1',width=100,height=50,font=(15))
+l.place(x=200,y=0)
+b=tk.Button(text='не нажиай',command=lambda:ot(l,b))
+b.configure(background='#FF7276')
+b.pack(expand=True,anchor='w',padx=40)
+tk.mainloop()
+'''
+''' 📝📝📝                                                                 олимпиадное задание
+Ваня очень дружелюбный мальчик, поэтому у него очень много друзей.
+Ваня рад этому, но вот делиться, если он что-то купил, приходится со всеми.
+Потому Ваня придумал очень гениальный план. Когда его спрашивают, что он
+купил, при выходе с магазина, он хочет называть только те продукты, которыми
+ему не жалко поделиться.
+Продукты, которыми не жалко поделиться, это продукты, которых Ваня
+купил минимум K//2 (целочисленное деление K на 2), где K – количество друзей,
+которые встретили Ваню у магазина.
+Определите, какими продуктами Ваня поделится в этот раз с ребятами.
+Входные данные:
+На вход в программу на первой строке подаётся K – количество друзей,
+которые встречают Ваню у магазина (1 <= K <= 10000).
+На второй строке подаётся N (1 <= N <= 1000000) – количество продуктов,
+которые купил Ваня.
+Далее, на N строках указаны названия продуктов (одно слово английскими
+буквами), купленных Ваней, притом продукты, которые были куплены более чем
+в количестве 1 штуки, идут подряд. Если Ваня купил Apple 3 штуки,
+то Apple будут идти подряд. Но продукты не отсортированы по алфавиту!
+Выходные данные:
+На выходе необходимо вывести в отсортированном по алфавиту порядке
+названия всех продуктов (каждое название на новой строке), которыми
+поделится Ваня. Если Ваня не поделится с ребятами продуктами, то вывести
+«NO» заглавными буквами.
+💻💻💻
+import copy
+k = int(input())//2
+l = list()
+for i in range(int(input())):
+    l.append(input())
+kol = dict()
+c = 0
+for i in l:
+    for g in l:
+        if g==i:
+            c+=1
+            kol.update({g:c})
+    c=0
+kol1=copy.copy(kol)
+for i,g in kol.items():
+    if g==1 or g<k:
+        kol1.pop(i)
+l.clear()
+for i,i1 in kol1.items():
+    for i3 in range(i1//2):
+        l.append(i)
+l.sort()
+if l!=[]:
+    for i in l:
+        print(i)
+"""
+4
+6
+Apple
+Apple
+Milk
+Cola
+Cola
+Cola
+"""
+'''
