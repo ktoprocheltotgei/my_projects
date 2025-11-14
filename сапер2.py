@@ -30,7 +30,7 @@ class gamepole():
         self.hode = 0
         self.cvet_otritoy='lightgray'
         self.cvet_zakritoy='white'
-        self.obnova = tk.Button(self.t, text='начать заного', font=('Calibri', 15))
+        self.obnova = tk.Button(self.t, text='начать заново', font=('Calibri', 15))
         self.obnova.place(relx=1.0, rely=0.0, anchor="ne", width=150, heigh=30)
         self.obnova.bind('<ButtonPress>', lambda event: a.igratb_snova(a))
         self.pole = [[0 for i in range(self._n)] for i in range(self._n)]
@@ -397,6 +397,7 @@ class gamepole():
 
 b = gamepole()
 b.int(b,10)
+
 
 
 tk.mainloop()
